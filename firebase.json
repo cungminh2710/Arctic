@@ -1,7 +1,7 @@
 {
 	"hosting": [
 		{
-			"public": "web/public",
+			"public": "dist",
 			"target": "arctic",
 			"rewrites": [
 				{
