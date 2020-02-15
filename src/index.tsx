@@ -4,7 +4,4 @@ import { render } from 'react-dom';
 import '@material/layout-grid/mdc-layout-grid.scss';
 import { BuilderLayout } from './builder';
 
-render (
-    <BuilderLayout />,
-    document.getElementById('root'),
-);
+render(<BuilderLayout />, document.getElementById('root'));

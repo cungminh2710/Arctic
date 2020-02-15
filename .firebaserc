@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "pavel-mvp"
+  },
+  "targets": {
+    "pavel-mvp": {
+      "hosting": {
+        "arctic": [
+          "pavel-test"
+        ]
+      }
+    }
+  }
+}

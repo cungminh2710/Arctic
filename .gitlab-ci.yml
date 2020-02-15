@@ -1,0 +1,13 @@
+image: node:lts
+
+cache:
+  paths:
+    - web/node_modules/
+
+deploy: 
+  stage: deploy
+  script:
+    - yarn && yarn build
+    - yarn global add firebase-tools
+    - firebase use --token $FIREBASE_TOKEN pavel-mvp
+    - firebase deploy --only hosting:arctic -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_TOKEN
