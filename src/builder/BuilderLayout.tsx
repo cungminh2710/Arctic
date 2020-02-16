@@ -60,7 +60,6 @@ export class BuilderLayout extends React.Component {
 					{dashboardState.map(
 						(
 							{
-								id,
 								cssClass,
 								components: contentComponents
 							}: IContent,
@@ -126,6 +125,7 @@ export class BuilderLayout extends React.Component {
 			componentsPath,
 			componentState.getIn(componentsPath).push(newComponent)
 		);
+		console.log(componentState.toJS());
 		this.setState({ dashboardState: componentState.toJS() });
 	}
 

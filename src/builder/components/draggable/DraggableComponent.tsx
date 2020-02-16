@@ -17,8 +17,7 @@ export const DraggableComponent = ({
 	name,
 	type,
 	onDragStart,
-	draggable = true,
-	dropped = false
+	draggable = true
 }: IDraggableComponent) => (
 	<div
 		className="draggable-component"
