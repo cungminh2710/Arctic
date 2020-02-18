@@ -45,6 +45,16 @@ module.exports = {
 				use: [
 					'style-loader', // creates style nodes from JS strings
 					'css-loader', // translates CSS into CommonJS
+					{
+						loader: 'postcss-loader',
+						options: {
+							ident: 'postcss',
+							plugins: [
+								require('tailwindcss'),
+								require('autoprefixer')
+							]
+						}
+					},
 					'sass-loader' // compiles Sass to CSS, using Node Sass by default
 				]
 			},

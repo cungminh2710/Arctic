@@ -1,6 +1,11 @@
 $palette: (
   grey:     #EFEFEF
 );
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
 
 body {
   padding-top: 0 !important;
