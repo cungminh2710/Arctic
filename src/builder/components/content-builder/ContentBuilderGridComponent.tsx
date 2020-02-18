@@ -8,12 +8,14 @@ export interface IContentBuilderGridComponent {
 	children: Arctic.Component[];
 	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
 	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
+	onDragStart: Arctic.DragStartFunc;
 }
 
 export const ContentBuilderGridComponent = ({
 	id,
 	children,
 	onDragOver,
+	onDragStart,
 	onDragDrop
 }: IContentBuilderGridComponent) => (
 	<GridComponent key={id}>
@@ -33,6 +35,7 @@ export const ContentBuilderGridComponent = ({
 									name={child.name}
 									type={child.type}
 									children={child.children}
+									onDragStart={onDragStart}
 									onDragOver={onDragOver}
 									onDragDrop={onDragDrop}
 								/>

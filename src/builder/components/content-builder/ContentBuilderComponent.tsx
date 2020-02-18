@@ -8,7 +8,7 @@ export interface IContentBuilderComponent {
 	cssClass?: string;
 	components: Arctic.Component[];
 	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-	onDragStart: Arctic.DragFunc;
+	onDragStart: Arctic.DragStartFunc;
 	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
 }
 

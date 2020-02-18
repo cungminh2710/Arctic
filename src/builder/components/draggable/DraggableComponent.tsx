@@ -9,7 +9,7 @@ export interface IDraggableComponent {
 	className?: string;
 	draggable?: boolean;
 	dropped?: boolean;
-	onDragStart: Arctic.DragFunc;
+	onDragStart: Arctic.DragStartFunc;
 }
 
 export const DraggableComponent = ({

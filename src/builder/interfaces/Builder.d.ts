@@ -1,5 +1,5 @@
 declare namespace Arctic {
-	type DragFunc = (
+	type DragStartFunc = (
 		ev: React.DragEvent<HTMLElement>,
 		data: { name: string; type: string; id: string }
 	) => void;

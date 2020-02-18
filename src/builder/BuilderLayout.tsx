@@ -83,7 +83,7 @@ export class BuilderLayout extends React.Component {
 		);
 	}
 
-	private onDragStart: Arctic.DragFunc = (event, data) => {
+	private onDragStart: Arctic.DragStartFunc = (event, data) => {
 		event.dataTransfer.setData('id', data.id);
 		event.dataTransfer.setData('name', data.name);
 		event.dataTransfer.setData('type', data.type);
