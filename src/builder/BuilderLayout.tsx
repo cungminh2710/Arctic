@@ -125,32 +125,30 @@ export class BuilderLayout extends React.Component {
 		const id = event.dataTransfer.getData('id');
 		console.log(name, type, id);
 		if (isComponentType(type)) {
-			const newComponent: Arctic.Component = this.generateComponent(
-				type.toUpperCase() + '-' + Date.now(),
-				type
-			);
 			const { dashboardState } = this.state;
 			let componentState = fromJS(dashboardState);
 			let componentPath: Array<number | string>;
 			// If moving component between containers
 			if (id !== 'undefined') {
 				componentPath = this.getComponentPath(id, true);
-
-				componentState = componentState.setIn(
+				componentState = componentState.updateIn(
 					componentPath,
-					componentState
-						.getIn(componentPath)
-						.filter(
-							(component: Arctic.Component) =>
-								component.name === name
+					(list: any) =>
+						list.filter(
+							(component: any) => component.get('name') !== name
 						)
 				);
 			}
-
+			const newComponent: Arctic.Component = this.generateComponent(
+				id === 'undefined'
+					? type.toUpperCase() + '-' + Date.now()
+					: name,
+				type
+			);
 			componentPath = this.getComponentPath(containerId);
-			componentState = componentState.setIn(
+			componentState = componentState.updateIn(
 				componentPath,
-				componentState.getIn(componentPath).push(newComponent)
+				(list: any) => list.push(newComponent)
 			);
 			console.log(componentState.toJS());
 			this.setState({ dashboardState: componentState.toJS() });
