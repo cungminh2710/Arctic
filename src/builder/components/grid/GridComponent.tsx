@@ -5,7 +5,5 @@ export interface IGridComponent {
 }
 
 export const GridComponent = ({ children }: IGridComponent) => (
-	<div className="mdc-layout-grid">
-		<div className="mdc-layout-grid__inner">{children}</div>
-	</div>
+	<div className="grid grid-cols-2 gap-4 py-1">{children}</div>
 );

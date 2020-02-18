@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export function getMatGridSizeClass(size: number): string {
-	return `mdc-layout-grid__cell mdc-layout-grid__cell--span-${size}`;
+	return `size-${size}`;
 }
 
 export interface IGridItemComponent {
