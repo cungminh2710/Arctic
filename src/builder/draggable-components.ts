@@ -1,19 +1,17 @@
-import { IComponent, IComponentType } from './interfaces';
-
-export const DraggableComponents: IComponent[] = [
+export const DraggableComponents: Arctic.Component[] = [
 	{
 		children: [],
 		name: 'Card',
-		type: IComponentType.CARD
+		type: 'card'
 	},
 	{
 		children: [],
 		name: 'Grid',
-		type: IComponentType.GRID
+		type: 'grid'
 	},
 	{
 		children: [],
-		name: 'Heading',
-		type: IComponentType.HEADING
+		name: 'Text',
+		type: 'text'
 	}
 ];

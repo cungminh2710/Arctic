@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 import { ContentComponent, DroppableComponent } from '../';
-import { IComponent } from '../../interfaces';
 import { ContentBuilderDraggableComponent } from './';
 
 export interface IContentBuilderComponent {
 	id?: string;
 	cssClass?: string;
-	components: IComponent[];
+	components: Arctic.Component[];
 	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+	onDragStart: Arctic.DragFunc;
 	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
 }
 
@@ -16,12 +16,18 @@ export class ContentBuilderComponent extends React.Component<
 	IContentBuilderComponent
 > {
 	public render() {
-		const { components, id, onDragOver, onDragDrop } = this.props;
+		const {
+			components,
+			id,
+			onDragOver,
+			onDragDrop,
+			onDragStart
+		} = this.props;
 		return (
 			<ContentComponent>
 				{components.map(
 					(
-						{ name, type, children }: IComponent,
+						{ name, type, children }: Arctic.Component,
 						componentIndex: number
 					) => (
 						<ContentBuilderDraggableComponent
@@ -30,6 +36,7 @@ export class ContentBuilderComponent extends React.Component<
 							name={name}
 							type={type}
 							children={children}
+							onDragStart={onDragStart}
 							onDragOver={onDragOver}
 							onDragDrop={onDragDrop}
 						/>

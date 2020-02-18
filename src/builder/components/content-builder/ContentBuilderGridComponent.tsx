@@ -1,12 +1,11 @@
 import * as React from 'react';
 
 import { DroppableComponent, GridComponent, GridItemComponent } from '../';
-import { IComponent } from '../../interfaces';
 import { ContentBuilderDraggableComponent } from './';
 
 export interface IContentBuilderGridComponent {
 	id: string;
-	children: IComponent[];
+	children: Arctic.Component[];
 	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
 	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
 }
@@ -20,14 +19,14 @@ export const ContentBuilderGridComponent = ({
 	<GridComponent key={id}>
 		{children.map(
 			(
-				{ children: gridItemChildren, renderProps }: IComponent,
+				{ children: gridItemChildren, renderProps }: Arctic.Component,
 				gridItemIndex: number
 			) => {
 				const gridId = `${id}_${gridItemIndex}`;
 				return (
 					<GridItemComponent key={gridId} size={renderProps.size}>
 						{gridItemChildren.map(
-							(child: IComponent, index: number) => (
+							(child: Arctic.Component, index: number) => (
 								<ContentBuilderDraggableComponent
 									key={`${gridId}_${index}`}
 									id={`${gridId}_${index}`}

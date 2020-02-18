@@ -5,16 +5,16 @@ import './builder-layout.scss';
 
 import { ContentBuilderComponent, DraggableComponent } from './components';
 import { DraggableComponents } from './draggable-components';
-import { IComponent, IComponentType, IContent } from './interfaces';
+import { isComponentType } from './utils/ComponentType';
 
 export interface IBuilderState {
-	dashboardState: IContent[];
+	dashboardState: Arctic.Content[];
 	isDragging: boolean;
 }
 
 const INT_LENGTH = 3;
 
-const originalState: IContent[] = [
+const originalState: Arctic.Content[] = [
 	{
 		components: []
 	},
@@ -45,7 +45,7 @@ export class BuilderLayout extends React.Component {
 			<div className="builder">
 				<div className="builder-draggables">
 					{DraggableComponents.map(
-						({ name, type }: IComponent, index: number) => (
+						({ name, type }: Arctic.Component, index: number) => (
 							<DraggableComponent
 								key={`comp-${index}`}
 								name={name}
@@ -62,7 +62,7 @@ export class BuilderLayout extends React.Component {
 							{
 								cssClass,
 								components: contentComponents
-							}: IContent,
+							}: Arctic.Content,
 							index: number
 						) => (
 							<ContentBuilderComponent
@@ -70,6 +70,7 @@ export class BuilderLayout extends React.Component {
 								id={`cb_${index}`}
 								cssClass={cssClass}
 								components={contentComponents}
+								onDragStart={this.onDragStart}
 								onDragDrop={this.onDragDrop}
 								onDragOver={(
 									ev: React.DragEvent<HTMLDivElement>
@@ -82,17 +83,27 @@ export class BuilderLayout extends React.Component {
 		);
 	}
 
-	private onDragStart(
-		event: React.DragEvent<HTMLDivElement>,
-		name: string,
-		type: string
-	) {
-		event.dataTransfer.setData('id', name);
-		event.dataTransfer.setData('type', type);
-	}
+	private onDragStart: Arctic.DragFunc = (event, data) => {
+		event.dataTransfer.setData('id', data.id);
+		event.dataTransfer.setData('name', data.name);
+		event.dataTransfer.setData('type', data.type);
+	};
 
 	private onDragOver(event: React.DragEvent<HTMLDivElement>) {
 		event.preventDefault();
+	}
+
+	private getComponentPath(id: string, getRoot: boolean = false) {
+		const containerArray: string[] = id.split('_');
+		containerArray.shift(); // ignore first param, it is string prefix
+		getRoot && containerArray.pop();
+		const componentsPath: Array<number | string> = [];
+		containerArray.forEach((id: string, index: number) => {
+			componentsPath.push(parseInt(id, INT_LENGTH));
+			componentsPath.push(index === 0 ? 'components' : 'children');
+		});
+
+		return componentsPath;
 	}
 
 	/**
@@ -109,40 +120,60 @@ export class BuilderLayout extends React.Component {
 		event: React.DragEvent<HTMLDivElement>,
 		containerId: string
 	) {
-		const name = event.dataTransfer.getData('id');
+		const name = event.dataTransfer.getData('name');
 		const type = event.dataTransfer.getData('type');
-		const newComponent: IComponent = this.generateComponent(name, type);
-		const containerArray: string[] = containerId.split('_');
-		containerArray.shift(); // ignore first param, it is string prefix
-		const componentsPath: Array<number | string> = [];
-		containerArray.forEach((id: string, index: number) => {
-			componentsPath.push(parseInt(id, INT_LENGTH));
-			componentsPath.push(index === 0 ? 'components' : 'children');
-		});
-		const { dashboardState } = this.state;
-		let componentState = fromJS(dashboardState);
-		componentState = componentState.setIn(
-			componentsPath,
-			componentState.getIn(componentsPath).push(newComponent)
-		);
-		console.log(componentState.toJS());
-		this.setState({ dashboardState: componentState.toJS() });
+		const id = event.dataTransfer.getData('id');
+		console.log(name, type, id);
+		if (isComponentType(type)) {
+			const newComponent: Arctic.Component = this.generateComponent(
+				type.toUpperCase() + '-' + Date.now(),
+				type
+			);
+			const { dashboardState } = this.state;
+			let componentState = fromJS(dashboardState);
+			let componentPath: Array<number | string>;
+			// If moving component between containers
+			if (id !== 'undefined') {
+				componentPath = this.getComponentPath(id, true);
+
+				componentState = componentState.setIn(
+					componentPath,
+					componentState
+						.getIn(componentPath)
+						.filter(
+							(component: Arctic.Component) =>
+								component.name === name
+						)
+				);
+			}
+
+			componentPath = this.getComponentPath(containerId);
+			componentState = componentState.setIn(
+				componentPath,
+				componentState.getIn(componentPath).push(newComponent)
+			);
+			console.log(componentState.toJS());
+			this.setState({ dashboardState: componentState.toJS() });
+		}
 	}
 
-	private generateComponent(name: string, type: string): IComponent {
-		let newComponent: IComponent = {
+	private generateComponent(
+		name: string,
+		type: Arctic.ComponentType
+	): Arctic.Component {
+		let newComponent: Arctic.Component = {
 			name,
 			type
 		};
-		if (type === IComponentType.GRID) {
+		if (type === 'grid') {
 			// TODO - predefine this somewhere else (default props)
-			const gridItem: IComponent = {
+			const gridItem: Arctic.Component = {
 				children: [],
-				name: '',
+				name,
 				renderProps: {
 					size: 6 // <- make this configurable
 				},
-				type: IComponentType.GRID_ITEM
+				type: 'grid_item'
 			};
 			newComponent = {
 				...newComponent,

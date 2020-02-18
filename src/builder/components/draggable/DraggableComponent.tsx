@@ -1,28 +1,29 @@
 import * as React from 'react';
 import './draggable-component.scss';
+import classNames from 'classnames';
 
 export interface IDraggableComponent {
 	name: string;
+	id?: string;
 	type: string;
+	className?: string;
 	draggable?: boolean;
 	dropped?: boolean;
-	onDragStart: (
-		ev: React.DragEvent<HTMLDivElement>,
-		name: string,
-		type: string
-	) => void;
+	onDragStart: Arctic.DragFunc;
 }
 
 export const DraggableComponent = ({
 	name,
 	type,
+	id,
+	className,
 	onDragStart,
 	draggable = true
 }: IDraggableComponent) => (
 	<div
-		className="draggable-component"
+		className={classNames('draggable-component', className)}
 		draggable={draggable}
-		onDragStart={ev => onDragStart(ev, name, type)}
+		onDragStart={ev => onDragStart(ev, { id, name, type })}
 	>
 		{name}
 	</div>
