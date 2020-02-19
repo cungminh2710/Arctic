@@ -120,10 +120,29 @@ export class BuilderLayout extends React.Component {
 			const { dashboardState } = this.state;
 			let componentState = fromJS(dashboardState);
 			let componentPath: Array<number | string>;
+
+			const newComponent: Arctic.Component = this.generateComponent(
+				id === 'undefined'
+					? type.toUpperCase() + '-' + Date.now()
+					: name,
+				type
+			);
+			componentPath = this.getComponentPath(containerId);
+			console.log(
+				`Updating: ${componentPath} in `,
+				componentState.toJS()
+			);
+			componentState = componentState.updateIn(
+				componentPath,
+				(list: any) => list.push(newComponent)
+			);
 			// If moving component between containers
 			if (id !== 'undefined') {
 				componentPath = this.getComponentPath(id, true);
-				console.log(`Updating: ${componentPath} in `, componentState.toJS());
+				console.log(
+					`Removing: ${componentPath}-${id}/${name} in `,
+					componentState.toJS()
+				);
 				componentState = componentState.updateIn(
 					componentPath,
 					(list: any) =>
@@ -132,18 +151,6 @@ export class BuilderLayout extends React.Component {
 						)
 				);
 			}
-			const newComponent: Arctic.Component = this.generateComponent(
-				id === 'undefined'
-					? type.toUpperCase() + '-' + Date.now()
-					: name,
-				type
-			);
-			componentPath = this.getComponentPath(containerId);
-			console.log(`Updating: ${componentPath} in `, componentState.toJS());
-			componentState = componentState.updateIn(
-				componentPath,
-				(list: any) => list.push(newComponent)
-			);
 			console.log(componentState.toJS());
 			this.setState({ dashboardState: componentState.toJS() });
 		}
