@@ -1,24 +1,24 @@
 import * as React from 'react';
 
-import { DroppableComponent, GridComponent, GridItemComponent } from '../';
+import { DroppableComponent, Grid, GridItem } from '../';
 import { ContentBuilderDraggableComponent } from './';
 
-export interface IContentBuilderGridComponent {
+export interface IContentBuilderGrid {
 	id: string;
 	children: Arctic.Component[];
-	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
+	onDragOver: Arctic.DragOverFunc;
+	onDragDrop: Arctic.DragDropFunc;
 	onDragStart: Arctic.DragStartFunc;
 }
 
-export const ContentBuilderGridComponent = ({
+export const ContentBuilderGrid = ({
 	id,
 	children,
 	onDragOver,
 	onDragStart,
 	onDragDrop
-}: IContentBuilderGridComponent) => (
-	<GridComponent key={id}>
+}: IContentBuilderGrid) => (
+	<Grid key={id}>
 		{children.map(
 			(
 				{ children: gridItemChildren, renderProps }: Arctic.Component,
@@ -26,7 +26,7 @@ export const ContentBuilderGridComponent = ({
 			) => {
 				const gridId = `${id}_${gridItemIndex}`;
 				return (
-					<GridItemComponent key={gridId} size={renderProps.size}>
+					<GridItem key={gridId} size={renderProps.size}>
 						{gridItemChildren.map(
 							(child: Arctic.Component, index: number) => (
 								<ContentBuilderDraggableComponent
@@ -46,9 +46,9 @@ export const ContentBuilderGridComponent = ({
 							onDragOver={ev => onDragOver(ev)}
 							onDrop={ev => onDragDrop(ev, gridId)}
 						/>
-					</GridItemComponent>
+					</GridItem>
 				);
 			}
 		)}
-	</GridComponent>
+	</Grid>
 );

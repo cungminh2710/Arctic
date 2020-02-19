@@ -1,24 +1,24 @@
 import * as React from 'react';
+import classnames from 'classnames';
 import './droppable-component.scss';
 
 export interface IDroppableComponent {
 	name: string;
-	onDragOver: (ev: React.DragEvent<HTMLDivElement>) => void;
-	onDrop: (
-		ev: React.DragEvent<HTMLDivElement>,
-		componentName: string
-	) => void;
+	className?: string;
+	onDragOver: Arctic.DragOverFunc;
+	onDrop: Arctic.DragDropFunc;
 	children?: React.ReactNode;
 }
 
 export const DroppableComponent = ({
 	name,
+	className,
 	onDragOver,
 	onDrop,
 	children
 }: IDroppableComponent) => (
 	<div
-		className="droppable-component"
+		className={classnames("droppable", className)}
 		onDragOver={(ev: React.DragEvent<HTMLDivElement>) => onDragOver(ev)}
 		onDrop={(ev: React.DragEvent<HTMLDivElement>) => onDrop(ev, name)}
 		data-id={name}

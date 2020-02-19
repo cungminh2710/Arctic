@@ -6,11 +6,6 @@ export interface IContentComponent {
 	className?: string;
 }
 
-export const ContentComponent = ({
-	children,
-	className = ''
-}: IContentComponent) => (
-	<div className={className}>
-		<div className="content">{children}</div>
-	</div>
+export const ContentComponent = ({ children }: IContentComponent) => (
+	<div className="content">{children}</div>
 );

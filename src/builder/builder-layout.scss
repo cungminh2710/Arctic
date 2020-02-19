@@ -6,9 +6,6 @@ $palette: (
 @tailwind components;
 
 @tailwind utilities;
-body {
-  padding-top: 0 !important;
-}
 
 .builder {
   &-draggables {
@@ -26,13 +23,14 @@ body {
       margin-bottom: 20px;
     }
     .content {
-      .draggable-component {
+      .component { 
+        margin: 10px;
+      }
+      .draggable {
         display: block;
         float: none;
-        border: none;
         margin: 0;
         width: 100%;
-        margin-bottom: 5px;
       }
     }
   }

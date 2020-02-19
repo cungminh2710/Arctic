@@ -1,11 +1,10 @@
-.draggable-component {
+.draggable {
+  cursor: grab;
   background-color: white;
   box-sizing: border-box;
   border: solid 1px #666;
   color: #666;
   float: left;
-  cursor: grab;
-  height: 100px;
   margin: 5px;
   padding: 20px;
   width: 100px;

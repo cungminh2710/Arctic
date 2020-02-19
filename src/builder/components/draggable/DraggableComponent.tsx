@@ -7,6 +7,7 @@ export interface IDraggableComponent {
 	id?: string;
 	type: string;
 	className?: string;
+	children?: React.ReactNode;
 	draggable?: boolean;
 	dropped?: boolean;
 	onDragStart: Arctic.DragStartFunc;
@@ -17,14 +18,16 @@ export const DraggableComponent = ({
 	type,
 	id,
 	className,
+	children,
 	onDragStart,
 	draggable = true
 }: IDraggableComponent) => (
 	<div
-		className={classNames('draggable-component', className)}
+		className={classNames({ 'draggable': draggable }, className)}
 		draggable={draggable}
-		onDragStart={ev => onDragStart(ev, { id, name, type })}
+		onDragStart={ev => draggable && onDragStart(ev, { id, name, type })}
 	>
 		{name}
+		{children}
 	</div>
 );

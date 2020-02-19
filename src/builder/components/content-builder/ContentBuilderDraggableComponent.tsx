@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { DraggableComponent } from '../';
-import { ContentBuilderGridComponent } from './';
+import { ContentBuilderGrid, ContentBuilderContainer } from './';
 
 export interface IContentBuilderDraggableComponent {
 	id: string;
 	name: string;
-	type: string;
+	type: Arctic.ComponentType;
 	children: Arctic.Component[];
-	onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
+	onDragOver: Arctic.DragOverFunc;
 	onDragStart?: Arctic.DragStartFunc;
-	onDragDrop: (event: React.DragEvent<HTMLDivElement>, id: string) => void;
+	onDragDrop: Arctic.DragDropFunc;
 }
 
 export const ContentBuilderDraggableComponent = ({
@@ -21,18 +21,15 @@ export const ContentBuilderDraggableComponent = ({
 	onDragOver,
 	onDragDrop
 }: IContentBuilderDraggableComponent) => {
-	if (type === 'grid') {
-		return (
-			<ContentBuilderGridComponent
-				id={id}
-				children={children}
-				onDragStart={onDragStart}
-				onDragOver={onDragOver}
-				onDragDrop={onDragDrop}
-			/>
-		);
-	} else {
-		return (
+	const dragable = type !== 'container' && type !== 'grid';
+	return (
+		<div className="component">
+			{/* <DroppableComponent
+					name={id}
+					className="attached"
+					onDragOver={ev => onDragOver(ev)}
+					onDrop={ev => onDragDrop(ev, id)}
+				/> */}
 			<DraggableComponent
 				key={`drag-${id}`}
 				id={id}
@@ -40,9 +37,35 @@ export const ContentBuilderDraggableComponent = ({
 				name={name}
 				type={type}
 				onDragStart={onDragStart}
-				draggable={true}
+				draggable={dragable}
 				dropped={true}
-			/>
-		);
-	}
+			>
+				{type === 'container' && (
+					<ContentBuilderContainer
+						id={id}
+						children={children}
+						onDragStart={onDragStart}
+						onDragOver={onDragOver}
+						onDragDrop={onDragDrop}
+					></ContentBuilderContainer>
+				)}
+				{type === 'grid' && (
+					<ContentBuilderGrid
+						id={id}
+						children={children}
+						onDragStart={onDragStart}
+						onDragOver={onDragOver}
+						onDragDrop={onDragDrop}
+					/>
+				)}
+			</DraggableComponent>
+			{/* <DroppableComponent
+					name={id}
+					className="attached"
+					onDragOver={ev => onDragOver(ev)}
+					onDrop={ev => onDragDrop(ev, id)}
+				/> */}
+		</div>
+	);
+	// }
 };

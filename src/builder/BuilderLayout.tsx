@@ -7,27 +7,23 @@ import { ContentBuilderComponent, DraggableComponent } from './components';
 import { DraggableComponents } from './draggable-components';
 import { isComponentType } from './utils/ComponentType';
 
-export interface IBuilderState {
-	dashboardState: Arctic.Content[];
+export interface BuilderState {
+	dashboardState: Arctic.Component[];
 	isDragging: boolean;
 }
 
-const INT_LENGTH = 3;
+const INT_LENGTH = 5;
 
-const originalState: Arctic.Content[] = [
+const originalState: Arctic.Component[] = [
 	{
-		components: []
-	},
-	{
-		components: []
-	},
-	{
-		components: []
+		name: 'Blank',
+		type: 'container',
+		children: []
 	}
 ];
 
 export class BuilderLayout extends React.Component {
-	public state: IBuilderState = {
+	public state: BuilderState = {
 		dashboardState: originalState,
 		isDragging: false
 	};
@@ -59,16 +55,12 @@ export class BuilderLayout extends React.Component {
 				<div className="builder-droppables">
 					{dashboardState.map(
 						(
-							{
-								cssClass,
-								components: contentComponents
-							}: Arctic.Content,
+							{ children: contentComponents }: Arctic.Component,
 							index: number
 						) => (
 							<ContentBuilderComponent
 								key={`cb_${index}`}
 								id={`cb_${index}`}
-								cssClass={cssClass}
 								components={contentComponents}
 								onDragStart={this.onDragStart}
 								onDragDrop={this.onDragDrop}
@@ -98,9 +90,9 @@ export class BuilderLayout extends React.Component {
 		containerArray.shift(); // ignore first param, it is string prefix
 		getRoot && containerArray.pop();
 		const componentsPath: Array<number | string> = [];
-		containerArray.forEach((id: string, index: number) => {
+		containerArray.forEach((id: string) => {
 			componentsPath.push(parseInt(id, INT_LENGTH));
-			componentsPath.push(index === 0 ? 'components' : 'children');
+			componentsPath.push('children');
 		});
 
 		return componentsPath;
@@ -131,6 +123,7 @@ export class BuilderLayout extends React.Component {
 			// If moving component between containers
 			if (id !== 'undefined') {
 				componentPath = this.getComponentPath(id, true);
+				console.log(`Updating: ${componentPath} in `, componentState.toJS());
 				componentState = componentState.updateIn(
 					componentPath,
 					(list: any) =>
@@ -146,6 +139,7 @@ export class BuilderLayout extends React.Component {
 				type
 			);
 			componentPath = this.getComponentPath(containerId);
+			console.log(`Updating: ${componentPath} in `, componentState.toJS());
 			componentState = componentState.updateIn(
 				componentPath,
 				(list: any) => list.push(newComponent)
@@ -177,6 +171,8 @@ export class BuilderLayout extends React.Component {
 				...newComponent,
 				children: [gridItem, gridItem] // <- make this configurable
 			};
+		} else if (type === 'container') {
+			newComponent = { ...newComponent, children: [] };
 		}
 		return newComponent;
 	}

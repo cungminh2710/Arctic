@@ -7,15 +7,22 @@ import {
 	IContentBuilderDraggableComponent
 } from './ContentBuilderDraggableComponent';
 import {
-	ContentBuilderGridComponent,
-	IContentBuilderGridComponent
+	ContentBuilderGrid,
+	IContentBuilderGrid
 } from './ContentBuilderGridComponent';
+
+import {
+	ContentBuilderContainer,
+	IContentBuilderContainer
+} from './ContentBuilderContainerComponent';
 
 export {
 	ContentBuilderComponent,
 	IContentBuilderComponent,
 	ContentBuilderDraggableComponent,
 	IContentBuilderDraggableComponent,
-	ContentBuilderGridComponent,
-	IContentBuilderGridComponent
+	ContentBuilderGrid,
+	IContentBuilderGrid,
+	ContentBuilderContainer,
+	IContentBuilderContainer
 };

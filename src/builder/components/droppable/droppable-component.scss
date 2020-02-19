@@ -1,13 +1,13 @@
-.droppable-component {
+.droppable{
   background: #FFF;
-  min-height: 110px;
   overflow: hidden;
   width: 100%;
   clear: both;
   overflow: hidden;
   padding: 5px;
+  margin: 5px 0px;
   box-sizing: border-box;
-  border: dashed 3px #666;
+  border: dashed 1px #666;
 
   span {
     display: block;
@@ -15,7 +15,15 @@
     text-align: center;
     color: #666;
     font-weight: bold;
-    font-size: 30px;
-    padding: 40px 0;
+    font-size: 15px;
+    padding: 15px 0;
+  }
+
+  &.attached {
+    border: dashed 1px #555;
+    span {
+      padding: 3px 0;
+      font-size: 12px;
+    }
   }
 }

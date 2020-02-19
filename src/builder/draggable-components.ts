@@ -1,13 +1,18 @@
 export const DraggableComponents: Arctic.Component[] = [
 	{
 		children: [],
-		name: 'Card',
-		type: 'card'
+		name: 'Grid',
+		type: 'grid'
 	},
 	{
 		children: [],
-		name: 'Grid',
-		type: 'grid'
+		name: 'Container',
+		type: 'container'
+	},
+	{
+		children: [],
+		name: 'Card',
+		type: 'card'
 	},
 	{
 		children: [],

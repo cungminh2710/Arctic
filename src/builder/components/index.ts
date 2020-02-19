@@ -1,3 +1,4 @@
+// Builder Components
 import { ContentComponent, IContentComponent } from './content';
 import {
 	ContentBuilderComponent,
@@ -5,8 +6,11 @@ import {
 } from './content-builder';
 import { DraggableComponent, IDraggableComponent } from './draggable';
 import { DroppableComponent, IDroppableComponent } from './droppable';
-import { GridComponent, IGridComponent } from './grid';
-import { GridItemComponent, IGridItemComponent } from './grid-item';
+
+// Display Components
+import { Grid, IGrid } from 'components/grid';
+import { GridItem, IGridItem } from 'components/grid-item';
+import { Container, IContainer } from 'components/container';
 
 export {
 	DraggableComponent,
@@ -17,8 +21,10 @@ export {
 	IContentBuilderComponent,
 	ContentComponent,
 	IContentComponent,
-	GridComponent,
-	IGridComponent,
-	GridItemComponent,
-	IGridItemComponent
+	Grid,
+	IGrid,
+	GridItem,
+	IGridItem,
+	Container,
+	IContainer
 };
