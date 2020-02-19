@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map, List } from 'immutable';
 import * as React from 'react';
 
 import './builder-layout.scss';
@@ -115,43 +115,41 @@ export class BuilderLayout extends React.Component {
 		const name = event.dataTransfer.getData('name');
 		const type = event.dataTransfer.getData('type');
 		const id = event.dataTransfer.getData('id');
-		console.log(name, type, id);
 		if (isComponentType(type)) {
 			const { dashboardState } = this.state;
 			let componentState = fromJS(dashboardState);
 			let componentPath: Array<number | string>;
 
 			const newComponent: Arctic.Component = this.generateComponent(
-				id === 'undefined'
-					? type.toUpperCase() + '-' + Date.now()
-					: name,
+				type + '-' + Date.now(),
 				type
 			);
 			componentPath = this.getComponentPath(containerId);
 			console.log(
-				`Updating: ${componentPath} in `,
+				`Adding to ${componentPath} in `,
 				componentState.toJS()
 			);
 			componentState = componentState.updateIn(
 				componentPath,
-				(list: any) => list.push(newComponent)
+				(list: any) => List<Arctic.Component>(list).push(newComponent)
 			);
 			// If moving component between containers
 			if (id !== 'undefined') {
 				componentPath = this.getComponentPath(id, true);
 				console.log(
-					`Removing: ${componentPath}-${id}/${name} in `,
+					`Removing ${name}/${id} from ${componentPath} in `,
 					componentState.toJS()
 				);
 				componentState = componentState.updateIn(
 					componentPath,
 					(list: any) =>
-						list.filter(
-							(component: any) => component.get('name') !== name
+						List<Arctic.Component>(list).filter(
+							(component: any) =>
+								Map(component).get('name') !== name
 						)
 				);
 			}
-			console.log(componentState.toJS());
+			console.log(`Result: `, componentState.toJS());
 			this.setState({ dashboardState: componentState.toJS() });
 		}
 	}

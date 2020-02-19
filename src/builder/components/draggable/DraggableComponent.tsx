@@ -27,7 +27,7 @@ export const DraggableComponent = ({
 		draggable={draggable}
 		onDragStart={ev => draggable && onDragStart(ev, { id, name, type })}
 	>
-		{name}
+		{type}
 		{children}
 	</div>
 );
