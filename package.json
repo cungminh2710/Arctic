@@ -17,7 +17,7 @@
     "@types/uuid": "^3.4.4",
     "classnames": "^2.2.6",
     "immutable": "^4.0.0-rc.12",
-    "postcss": "^7.0.27",
+    "postcss": "^8.2.13",
     "postcss-loader": "^3.0.0",
     "react": "^16.8.4",
     "react-dnd": "^10.0.2",
